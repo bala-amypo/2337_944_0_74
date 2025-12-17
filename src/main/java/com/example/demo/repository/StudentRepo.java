@@ -1,1 +1,1 @@
- public interface StudentRepo extends jpaRespoitr
+ public interface StudentRepo extends jpaRespoitry
