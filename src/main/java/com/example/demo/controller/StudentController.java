@@ -32,7 +32,8 @@ public class Studentconteller {
         return src.id(id);
     }
     @PutMapping("/update/{id}")
-    
+    public Studententity funName (@PathVariable int id,@RequestBody Studententity st){
+    return src.ids(id,st);
 }
 @DeleteMapping("/delete/{id}")
 public Studententity delData(@PathVariable int id){
