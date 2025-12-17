@@ -1,20 +1,3 @@
-package com.example.demo.newservice.newserviceimpl;
-import java.util.List;
-import org. springframework.stereotype.Service;
-import com.example.demo.newentity.NewfileEntity;
-import com.example.demo.newservice.NewfileService;
-@Service
-public class NewfileServiceImpl implements NewfileService{
-@Override
-public NewfileEntity savedata(NewfileEntity newfile) {
-
-@Override
-public NewfileEntity getidval(Long id) {
-
-}
-
-@Override
-public List<NewfileEntity> getall() {
 import com.example.demo.newservice.NewfileServiceImpl;
 package com.example.demo.newservice.newserviceimpl;
 
@@ -45,16 +28,18 @@ public class NewfileServiceImpl implements NewfileService{
 
     @Override
     public NewFileEntity update(Long id,NewFileEntity st){
+        NewFileEntity exist = repo.findById(id).orElse(null);
 
+        if(exist!=null){
+            exist.setName(st.getName());
+            exist.setEmail(st.getEmail());
+            return repo.save(exist);
+        }
+        return null;
     }
 
     @Override
     public void del(Long id){
-
+        repo.deleteById(id);
     }
 }
-@Override
-public NewfileEntity update(Long id, NewfileEntity newfile) {
-
-@Override
-public void delete(Long id) {
