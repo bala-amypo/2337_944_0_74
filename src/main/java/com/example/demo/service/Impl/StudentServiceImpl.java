@@ -1,45 +1,52 @@
-import com.example.demo.newservice.NewfileServiceImpl;
-package com.example.demo.newservice.newserviceimpl;
+package com.example.demo.service.impl;
 
-import com.example.demo.newentity.NewFileEntity;
-import java.util.*;
+import java.util.List;
 
-public class NewfileServiceImpl implements NewfileService{
+import org.springframework.stereotype.Service;
 
-    private final NewfileRepo repo;
-    @Override
-    public NewfileServiceImpl(NewfileRepo repo){
-        this.repo = repo;
-    }
+import com.example.demo.entity.Studententity;
+import com.example.demo.repository.StudentRepo;
+import com.example.demo.service.Studentservices;
 
-    public NewFileEntity savedata(NewFileEntity st){
-        return repo.save(st);
-    }
+@Service
+public class StudentserviceImpl implements Studentservices {
 
-    @Override
-    public NewFileEntity getidval(Long id){
-        return findById(id);
+    private final StudentRepo rep;
+
+    public StudentserviceImpl(StudentRepo rep) {
+        this.rep = rep;
     }
 
     @Override
-    public List<NewFileEntity> getalldata(){
-        return findAll();
+    public Studententity postdata(Studententity st) {
+        return rep.save(st);
     }
 
     @Override
-    public NewFileEntity update(Long id,NewFileEntity st){
-        NewFileEntity exist = repo.findById(id).orElse(null);
-
-        if(exist!=null){
-            exist.setName(st.getName());
-            exist.setEmail(st.getEmail());
-            return repo.save(exist);
-        }
-        return null;
+    public List<Studententity> getdata() {
+        return rep.findAll();
     }
 
     @Override
-    public void del(Long id){
-        repo.deleteById(id);
+    public Studententity getIdValue(Long id) {
+        return rep.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+    }
+
+    @Override
+    public Studententity update(Long id, Studententity st) {
+        Studententity existing = getIdValue(id);
+
+        existing.setName(st.getName());
+        existing.setEmail(st.getEmail());
+        existing.setPassword(st.getPassword());
+        existing.setRole(st.getRole());
+
+        return rep.save(existing);
+    }
+
+    @Override
+    public void delete(Long id) {
+        rep.deleteById(id);
     }
 }
